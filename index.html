@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="style.css" rel="stylesheet" />
+    <title>Document</title>
+  </head>
+  <body>
+    <img src="#" alt="" />
+    <button>Click Me</button>
+    <script>
+      const img = document.querySelector("img");
+      const button = document.querySelector("button");
+      fetch(
+        "https://api.giphy.com/v1/gifs/translate?api_key=RlVpt5UzWDx7S8eL8LZgPtRWXDGkxW8O&s=funny dog",
+        { mode: "cors" }
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          img.src = res.data.images.original.url;
+        });
+      button.addEventListener("click", () => {
+        document.location.reload(true);
+      });
+    </script>
+  </body>
+</html>
