@@ -8,23 +8,36 @@
     <title>Document</title>
   </head>
   <body>
-    <img src="#" alt="" />
+    <img src="#" alt="Dog Gif" />
+    <input type="text" id="search" />
     <button>Click Me</button>
     <script>
       const img = document.querySelector("img");
       const button = document.querySelector("button");
-      fetch(
-        "https://api.giphy.com/v1/gifs/translate?api_key=RlVpt5UzWDx7S8eL8LZgPtRWXDGkxW8O&s=funny dog",
-        { mode: "cors" }
-      )
-        .then((res) => {
-          return res.json();
-        })
-        .then((res) => {
-          img.src = res.data.images.original.url;
-        });
+      const input = document.querySelector("#search");
+      async function getDogGif() {
+        const response = await fetch(
+          "https://api.giphy.com/v1/gifs/translate?api_key=RlVpt5UzWDx7S8eL8LZgPtRWXDGkxW8O&s=funny dog",
+          { mode: "cors" }
+        );
+        const dogData = await response.json();
+        const dogLink = dogData.data.images.original.url;
+        img.src = dogLink;
+      }
       button.addEventListener("click", () => {
-        document.location.reload(true);
+        getDogGif();
+      });
+      input.addEventListener("input", () => {
+        fetch(
+          `http://api.giphy.com/v1/gifs/search?q=${input.value}&api_key=RlVpt5UzWDx7S8eL8LZgPtRWXDGkxW8O&s&limit=1`,
+          { mode: "cors" }
+        )
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            img.src = res.data[0].url;
+          });
       });
     </script>
   </body>
